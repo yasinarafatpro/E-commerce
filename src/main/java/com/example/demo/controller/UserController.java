@@ -5,10 +5,13 @@ import com.example.demo.entity.user.User;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.userserviceimpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/private")
@@ -33,4 +36,15 @@ public class UserController {
                 .body(userMapper.Map(userService.update(user)));
 
     }
+    @GetMapping("/id/{id}")
+    public ResponseEntity<UserDto> findById(@PathVariable String id){
+         return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body(userMapper.Map(userService.findById(id)));
+    }
+    @DeleteMapping("/id/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable String id){
+        userService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
+

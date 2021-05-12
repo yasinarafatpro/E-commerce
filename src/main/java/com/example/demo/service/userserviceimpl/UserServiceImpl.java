@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
@@ -23,17 +26,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findById(String id) {
-        return userRepository.findById(id);
+    public User findById(String id) {
+        return userRepository.findById(id)
+        .orElseThrow(()->new EntityNotFoundException("user not found by email"));
     }
 
     @Override
     public Page<User> findAll(Pageable pageable) {
-        return null;
+
+        return userRepository.findAll(pageable);
     }
 
     @Override
     public void deleteById(String id) {
+        userRepository.deleteById(id);
 
     }
 }
