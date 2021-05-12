@@ -44,8 +44,10 @@ public class UserController {
         userService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
-
+    @GetMapping
+    public List<User> findAll(){
+        return userService.findAll();
+    }
 }
 
 
