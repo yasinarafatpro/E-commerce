@@ -5,8 +5,6 @@ import com.example.demo.entity.user.User;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.userserviceimpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,5 +44,8 @@ public class UserController {
         userService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+
 }
+
 

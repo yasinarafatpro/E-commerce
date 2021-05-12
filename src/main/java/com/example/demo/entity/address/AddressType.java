@@ -1,6 +1,7 @@
 package com.example.demo.entity.address;
 
 
-public class AddressType {
-
+public enum  AddressType {
+    SHIPPING,
+    BILLING
 }
