@@ -28,12 +28,12 @@ public class UserController {
 
     }
     @PutMapping
-    public ResponseEntity<UserDto> updateUser(@RequestBody User user){
+    public ResponseEntity<User> updateUser(@RequestBody User user){
         user.setUpdateDate(new Date());
         return ResponseEntity.status(HttpStatus.OK)
-                .body(userMapper.Map(userService.update(user)));
-
+                .body(userService.update(user));
     }
+
     @GetMapping("/id/{id}")
     public ResponseEntity<UserDto> findById(@PathVariable String id){
          return ResponseEntity.status(HttpStatus.ACCEPTED)

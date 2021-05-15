@@ -3,6 +3,7 @@ package com.example.demo.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -26,9 +27,14 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/","Index","/csc/*","/js/*").permitAll()
-                .antMatchers("/api/**").hasAnyRole(CUSTOMER.name())
+                .antMatchers("/api/**").hasAnyRole(ADMIN.name())
+                .antMatchers(HttpMethod.DELETE,"/api/**").hasAuthority(ApplicationUserPermission.CUSTOMER_WRITE.name())
+                .antMatchers(HttpMethod.POST,"/api/**").hasAuthority(ApplicationUserPermission.CUSTOMER_WRITE.name())
+                .antMatchers(HttpMethod.PUT,"/api/**").hasAuthority(ApplicationUserPermission.CUSTOMER_WRITE.name())
+                .antMatchers(HttpMethod.GET"/api/**").hasAnyRole(ADMIN.name(),ADMIN_TRAINEE.name())
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -48,9 +54,15 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .password(passwordEncoder.encode("password1"))
                 .roles(ADMIN.name())
                 .build();
+        UserDetails yasinUser=User.builder()
+                .username("yasin")
+                .password(passwordEncoder.encode("password12"))
+                .roles(ADMIN_TRAINEE.name())
+                .build();
         return new InMemoryUserDetailsManager(
                 rofiqUser,
-                arafatUser
+                arafatUser,
+                yasinUser
         );
     }
 }
