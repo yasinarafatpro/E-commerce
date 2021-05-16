@@ -30,11 +30,12 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/","Index","/csc/*","/js/*").permitAll()
-                .antMatchers("/api/**").hasAnyRole(ADMIN.name())
-                .antMatchers(HttpMethod.DELETE,"/api/**").hasAuthority(ApplicationUserPermission.CUSTOMER_WRITE.name())
-                .antMatchers(HttpMethod.POST,"/api/**").hasAuthority(ApplicationUserPermission.CUSTOMER_WRITE.name())
-                .antMatchers(HttpMethod.PUT,"/api/**").hasAuthority(ApplicationUserPermission.CUSTOMER_WRITE.name())
-                .antMatchers(HttpMethod.GET"/api/**").hasAnyRole(ADMIN.name(),ADMIN_TRAINEE.name())
+         //       .antMatchers("/api/**").hasAnyRole(ADMIN.name())
+                .antMatchers(HttpMethod.DELETE,"/api/**").hasAuthority(ApplicationUserPermission.CUSTOMER_WRITE.getPermission())
+                .antMatchers(HttpMethod.POST,"/api/**").hasAuthority(ApplicationUserPermission.CUSTOMER_WRITE.getPermission())
+                .antMatchers(HttpMethod.PUT,"/api/**").hasAuthority(ApplicationUserPermission.CUSTOMER_WRITE.getPermission())
+                .antMatchers(HttpMethod.GET,"/api/**").hasAnyRole(ADMIN.name(),ADMIN_TRAINEE.name())
+         //       .antMatchers("/api/**").hasAnyRole(ADMIN_TRAINEE.name())
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -47,17 +48,20 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
         UserDetails rofiqUser=User.builder()
                 .username("rofiq")
                 .password(passwordEncoder.encode("password"))
-                .roles(CUSTOMER.name())//static import
+         //       .roles(CUSTOMER.name())//static import
+                .authorities(CUSTOMER.getGrantedAuthorities())
                 .build();
         UserDetails arafatUser=User.builder()
                 .username("arafat")
                 .password(passwordEncoder.encode("password1"))
-                .roles(ADMIN.name())
+         //       .roles(ADMIN.name())
+                .authorities(ADMIN.getGrantedAuthorities())
                 .build();
         UserDetails yasinUser=User.builder()
                 .username("yasin")
                 .password(passwordEncoder.encode("password12"))
-                .roles(ADMIN_TRAINEE.name())
+         //       .roles(ADMIN_TRAINEE.name())
+                .authorities(ADMIN_TRAINEE.getGrantedAuthorities())
                 .build();
         return new InMemoryUserDetailsManager(
                 rofiqUser,
