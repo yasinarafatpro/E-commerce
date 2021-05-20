@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/")
 public class TemplateController {
-    @GetMapping("login")
+    @GetMapping("/login")
     public String getLogInView(){
         return "Login";
     }
-    @GetMapping("products")
+    @GetMapping("/products")
     public String getProductView(){
         return "Products";
     }

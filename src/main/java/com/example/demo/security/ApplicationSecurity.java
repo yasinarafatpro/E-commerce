@@ -1,23 +1,18 @@
 package com.example.demo.security;
 
+import com.example.demo.service.userserviceimpl.ApplicationUserDaoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.concurrent.TimeUnit;
-
-import static com.example.demo.security.ApplicationUserRole.*;
 
 @Configuration
 @EnableWebSecurity
@@ -25,10 +20,12 @@ import static com.example.demo.security.ApplicationUserRole.*;
 public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
+    private final ApplicationUserDaoImpl applicationUserDao;
     @Autowired
-    public ApplicationSecurity(PasswordEncoder passwordEncoder) {
+    public ApplicationSecurity(PasswordEncoder passwordEncoder, ApplicationUserDaoImpl applicationUserDao) {
 
         this.passwordEncoder = passwordEncoder;
+        this.applicationUserDao = applicationUserDao;
     }
 
     @Override
@@ -65,31 +62,15 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    @Bean
-    protected UserDetailsService userDetailsService() {
-        UserDetails rofiqUser=User.builder()
-                .username("rofiq")
-                .password(passwordEncoder.encode("password"))
-         //       .roles(CUSTOMER.name())//static import
-                .authorities(CUSTOMER.getGrantedAuthorities())
-                .build();
-        UserDetails arafatUser=User.builder()
-                .username("arafat")
-                .password(passwordEncoder.encode("password1"))
-         //       .roles(ADMIN.name())
-                .authorities(ADMIN.getGrantedAuthorities())
-                .build();
-        UserDetails yasinUser=User.builder()
-                .username("yasin")
-                .password(passwordEncoder.encode("password12"))
-         //       .roles(ADMIN_TRAINEE.name())
-                .authorities(ADMINTRAINEE.getGrantedAuthorities())
-                .build();
-        return new InMemoryUserDetailsManager(
-                rofiqUser,
-                arafatUser,
-                yasinUser
-        );
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(daoAuthenticationProvider());
+    }
+
+    public DaoAuthenticationProvider daoAuthenticationProvider(){
+        DaoAuthenticationProvider provider=new DaoAuthenticationProvider();
+        provider.setPasswordEncoder(passwordEncoder);
+        provider.setUserDetailsService(applicationUserDao);
+        return provider;
     }
 }
 
