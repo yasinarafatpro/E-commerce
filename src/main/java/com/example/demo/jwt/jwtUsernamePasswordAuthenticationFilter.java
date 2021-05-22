@@ -28,11 +28,12 @@ public class jwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
                     authenticationRequest.getUsername(),
                     authenticationRequest.getPassword()
             );
-            authenticationManager.authenticate(authentication);
+
+            Authentication authenticate = authenticationManager.authenticate(authentication);
+            return authenticate;
         }catch (IOException e){
             throw new RuntimeException(e);
         }
 
-        return super.attemptAuthentication(request, response);
     }
 }
