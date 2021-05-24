@@ -1,13 +1,11 @@
 package com.example.demo.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.javafx.css.StyleCacheEntry;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.rsocket.RSocketSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -60,6 +58,6 @@ public class jwtUsernamePasswordAuthenticationFilter extends UsernamePasswordAut
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusWeeks(2)))
                 .signWith(SignatureAlgorithm.HS256,"secretsecretsecretsecretsecretsecret=".getBytes())
                 .compact();
-        response.addHeader("Authorization","Bearer" +token);
+        response.addHeader("Authorization","Bearer" +  token);
     }
 }

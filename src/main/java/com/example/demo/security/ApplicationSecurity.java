@@ -1,5 +1,6 @@
 package com.example.demo.security;
 
+import com.example.demo.jwt.jwtUsernamePasswordAuthenticationFilter;
 import com.example.demo.service.userserviceimpl.ApplicationUserDaoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -32,33 +34,15 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilter(new jwtUsernamePasswordAuthenticationFilter(authenticationManager()))
                 .authorizeRequests()
                 .antMatchers("/","Index","/csc/*","/js/*").permitAll()
-         //       .antMatchers("/api/**").hasRole(CUSTOMER.name())
-         //       .antMatchers(HttpMethod.DELETE,"/api/**").hasAuthority(ApplicationUserPermission.CUSTOMER_WRITE.getPermission())
-         //       .antMatchers(HttpMethod.POST,"/api/**").hasAuthority(ApplicationUserPermission.CUSTOMER_WRITE.getPermission())
-         //       .antMatchers(HttpMethod.PUT,"/api/**").hasAuthority(ApplicationUserPermission.CUSTOMER_WRITE.getPermission())
-         //       .antMatchers(HttpMethod.GET,"/api/**").hasAnyRole(ADMIN.name(),ADMINTRAINEE.name())
+                .antMatchers("/api/**").hasRole(ApplicationUserRole.CUSTOMER.name())
                 .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin()
-                    .loginPage("/login").permitAll()
-                    .defaultSuccessUrl("/products",true)
-                    .passwordParameter("password")
-                    .usernameParameter("username")
-                .and()
-                .rememberMe()
-                    .tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(30))
-                    .key("somethingverysecure")
-                    .rememberMeParameter("remember-me")
-                .and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout","GET"))
-                .clearAuthentication(true)
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID","remember_me")
-                .logoutSuccessUrl("/login");
+                .authenticated();
     }
 
     @Override
