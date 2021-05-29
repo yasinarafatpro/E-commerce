@@ -26,14 +26,19 @@ public class JwtTokenVarifier extends OncePerRequestFilter{
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+
         String authorizationHeader =request.getHeader("Authorization");
+
         if(Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")){
+
             filterChain.doFilter(request,response);
             return;
         }
         String token=authorizationHeader.replace("Bearer ","");
+
         try {
             String secreteKey = "securesecuresecuresecuresecuresecuresecuresecuresecuresecure";
+
             Jws<Claims> claimsJws = Jwts.parser()
                     .setSigningKey(Keys.hmacShaKeyFor(secreteKey.getBytes()))
                     .parseClaimsJws(token);
@@ -58,6 +63,7 @@ public class JwtTokenVarifier extends OncePerRequestFilter{
         }catch (JwtException e){
             throw new IllegalStateException(String.format("token %s can't be trusted",token));
         }
+        filterChain.doFilter(request,response);
 
     }
 }

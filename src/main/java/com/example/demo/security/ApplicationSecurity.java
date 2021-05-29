@@ -1,5 +1,6 @@
 package com.example.demo.security;
 
+import com.example.demo.jwt.JwtTokenVarifier;
 import com.example.demo.jwt.jwtUsernamePasswordAuthenticationFilter;
 import com.example.demo.service.userserviceimpl.ApplicationUserDaoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableWebSecurity
@@ -37,7 +35,8 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilter(new jwtUsernamePasswordAuthenticationFilter(authenticationManager()))
+                .addFilter(new jwtUsernamePasswordAuthenticationFilter(authenticationManager(), jwtConfig, secretKey))
+                .addFilterAfter(new JwtTokenVarifier(),jwtUsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/","Index","/csc/*","/js/*").permitAll()
                 .antMatchers("/api/**").hasRole(ApplicationUserRole.CUSTOMER.name())
