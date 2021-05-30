@@ -1,18 +1,17 @@
 package com.example.demo.jwt;
 
 import com.google.common.net.HttpHeaders;
-import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-import javax.crypto.SecretKey;
-
-@ConfigurationProperties(prefix = "application.jwt")
+@ConfigurationProperties(prefix="application.jwt")
 public class JwtConfig {
     private String secreteKey;
     private String tokenPrefix;
-    private String tokenExpirationAfterDays;
+    private Integer tokenExpirationAfterDays;
 
+    @Autowired
     public JwtConfig() {
     }
 
@@ -32,14 +31,16 @@ public class JwtConfig {
         this.tokenPrefix = tokenPrefix;
     }
 
-    public String getTokenExpirationAfterDays() {
+    public Integer getTokenExpirationAfterDays() {
         return tokenExpirationAfterDays;
     }
 
-    public void setTokenExpirationAfterDays(String tokenExpirationAfterDays) {
+    public void setTokenExpirationAfterDays(Integer tokenExpirationAfterDays) {
         this.tokenExpirationAfterDays = tokenExpirationAfterDays;
     }
+
     public String getAuthorizationHeader(){
+
         return HttpHeaders.AUTHORIZATION;
     }
 }
