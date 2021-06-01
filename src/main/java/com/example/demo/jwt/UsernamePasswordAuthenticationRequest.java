@@ -1,11 +1,11 @@
 package com.example.demo.jwt;
 
 
-public class usernamePasswordAuthenticationRequest {
+public class UsernamePasswordAuthenticationRequest{
     private String username;
     private String password;
 
-    public usernamePasswordAuthenticationRequest() {
+    public UsernamePasswordAuthenticationRequest() {
     }
 
     public String getUsername() {

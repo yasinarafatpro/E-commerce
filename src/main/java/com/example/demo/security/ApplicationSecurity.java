@@ -1,8 +1,7 @@
 package com.example.demo.security;
-
 import com.example.demo.jwt.JwtConfig;
-import com.example.demo.jwt.JwtTokenVarifier;
-import com.example.demo.jwt.jwtUsernamePasswordAuthenticationFilter;
+import com.example.demo.jwt.JwtTokenVerifier;
+import com.example.demo.jwt.JwtUsernamePasswordAuthenticationFilter;
 import com.example.demo.service.userserviceimpl.ApplicationUserDaoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -45,8 +44,8 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilter(new jwtUsernamePasswordAuthenticationFilter(authenticationManager(), jwtConfig, secretKey))
-                .addFilterAfter(new JwtTokenVarifier(),jwtUsernamePasswordAuthenticationFilter.class)
+                .addFilter(new JwtUsernamePasswordAuthenticationFilter(authenticationManager(), jwtConfig, secretKey))
+                .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig),JwtUsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/","Index","/csc/*","/js/*").permitAll()
                 .antMatchers("/api/**").hasRole(ApplicationUserRole.CUSTOMER.name())
@@ -58,7 +57,6 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
-
     public DaoAuthenticationProvider daoAuthenticationProvider(){
         DaoAuthenticationProvider provider=new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);

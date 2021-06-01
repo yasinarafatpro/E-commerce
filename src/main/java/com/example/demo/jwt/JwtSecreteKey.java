@@ -7,15 +7,16 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.crypto.SecretKey;
 
-@Configuration()
+@Configuration
 public class JwtSecreteKey {
     private final JwtConfig jwtConfig;
-    @Autowired
+
+    @Autowired()
     public JwtSecreteKey(JwtConfig jwtConfig) {
         this.jwtConfig = jwtConfig;
     }
-    @Bean
+    @Bean()
     public SecretKey secretKey(){
-        return Keys.hmacShaKeyFor(jwtConfig.getSecreteKey().getBytes());
+        return Keys.hmacShaKeyFor(jwtConfig.getSecretKey().getBytes());
     }
 }

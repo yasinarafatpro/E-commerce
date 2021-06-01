@@ -1,26 +1,23 @@
 package com.example.demo.jwt;
 
 import com.google.common.net.HttpHeaders;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-@ConfigurationProperties(prefix="application.jwt")
+@ConfigurationProperties(prefix ="application.jwt")
 public class JwtConfig {
-    private String secreteKey;
+    private String secretKey;
     private String tokenPrefix;
     private Integer tokenExpirationAfterDays;
 
-    @Autowired
     public JwtConfig() {
     }
 
-    public String getSecreteKey() {
-        return secreteKey;
+    public String getSecretKey() {
+        return secretKey;
     }
 
-    public void setSecreteKey(String secreteKey) {
-        this.secreteKey = secreteKey;
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
     }
 
     public String getTokenPrefix() {
@@ -40,7 +37,6 @@ public class JwtConfig {
     }
 
     public String getAuthorizationHeader(){
-
         return HttpHeaders.AUTHORIZATION;
     }
 }
