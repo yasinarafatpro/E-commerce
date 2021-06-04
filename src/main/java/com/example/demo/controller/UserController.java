@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/private")
+@RequestMapping("/api/private/user")
 public class UserController {
     @Autowired
     UserServiceImpl userService;
