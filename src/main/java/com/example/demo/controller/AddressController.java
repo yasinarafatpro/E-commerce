@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/private/address")
@@ -39,5 +40,18 @@ public class AddressController {
     public ResponseEntity<Address> findById(@PathVariable String id ){
         return ResponseEntity.status(HttpStatus.FOUND)
                 .body(addressService.findById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Address>> findAll(){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(addressService.findAll());
+    }
+
+    @DeleteMapping("/id/{id}")
+    public ResponseEntity<Address> deleteById(@PathVariable String id){
+        addressService.findById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
     }
 }
