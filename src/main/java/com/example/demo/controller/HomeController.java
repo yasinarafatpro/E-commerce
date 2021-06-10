@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/private")
 public class HomeController {
     public String getProduct(@RequestBody Product product){
-        return
+        return null;
     }
 }
