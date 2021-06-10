@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Setter
@@ -16,7 +17,9 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 @NoArgsConstructor
 @Service
+@Table(name = "Product")
 public class Product extends BaseEntity{
     private String productName;
     private String productQuantity;
+    private String productPrice;
 }
