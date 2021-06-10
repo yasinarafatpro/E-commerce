@@ -1,14 +1,18 @@
 package com.example.demo.entity.user;
 
 import com.example.demo.entity.BaseEntity;
+import com.example.demo.entity.address.Address;
+import com.example.demo.security.ApplicationUserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
-import javax.persistence.Column;
-import javax.persistence.Entity;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Setter

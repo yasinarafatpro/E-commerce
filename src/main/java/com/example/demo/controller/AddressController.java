@@ -24,7 +24,6 @@ public class AddressController {
         address.setUpdateDate(new Date());
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(addressService.create(address));
-
     }
 
     @PutMapping

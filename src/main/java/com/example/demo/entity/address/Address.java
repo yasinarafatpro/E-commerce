@@ -22,10 +22,15 @@ import javax.persistence.Enumerated;
 public class Address extends BaseEntity {
     @Column(name = "country")
     private String country;
+    @Column(name = "division_name")
     private String division;
+    @Column(name = "zila_name")
     private String zila;
+    @Column(name = "thana_name")
     private String thana;
+    @Column(name = "postal_Code")
     private String postal_Code;
+    @Column(name = "village_name")
     private String village;
     @Column(name="address_type")
     @Enumerated(EnumType.STRING)
