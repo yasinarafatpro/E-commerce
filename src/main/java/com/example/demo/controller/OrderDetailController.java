@@ -5,6 +5,7 @@ import com.example.demo.service.orderdetailserviceimpl.OrderDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -15,6 +16,8 @@ public class OrderDetailController {
 
     @PostMapping
     public OrderDetail create(@RequestBody OrderDetail orderDetail){
+        orderDetail.setCreateDate(new Date());
+        orderDetail.setUpdateDate(new Date());
         return orderDetailService.create(orderDetail);
     }
     @GetMapping

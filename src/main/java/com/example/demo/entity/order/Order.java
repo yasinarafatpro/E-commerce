@@ -21,16 +21,16 @@ import java.util.Date;
 public class Order extends BaseEntity {
 
     private Date orderDate;
-    @Column(name = "Order_Number",nullable = false)
+    @Column(name = "Order_Number")
     private int orderNumber;
-    @Column(name = "Order_amount",nullable = false)
+    @Column(name = "Order_amount")
     private double amount;
-    @Column(name = "Customer_name",length = 225,nullable = false)
+    @Column(name = "Customer_name",length = 225)
     private String name;
-    @Column(name = "Customer_Address",length = 300,nullable = false)
+    @Column(name = "Customer_Address",length = 300)
     private String address;
-    @Column(name = "Customer_email",length = 200,nullable = false)
+    @Column(name = "Customer_email",length = 200)
     private String email;
-    @Column(name = "Customer_Phone",length = 128,nullable = false)
+    @Column(name = "Customer_Phone",length = 128)
     private String customerPhone;
 }
