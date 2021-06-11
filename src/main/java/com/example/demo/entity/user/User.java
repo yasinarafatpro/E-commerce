@@ -19,7 +19,6 @@ import java.util.Set;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Service
 public class User extends BaseEntity {
 
     @Column(name = "user_name",length = 50)

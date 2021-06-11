@@ -14,7 +14,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 @Entity
-@Service
 @Setter
 @Getter
 @AllArgsConstructor
