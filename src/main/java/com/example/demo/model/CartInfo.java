@@ -28,6 +28,7 @@ public class CartInfo {
     }
     //addProduct
     public void addProduct(ProductInfo productInfo,int quantity){
+
         CartLineInfo line = this.findLineByCode(productInfo.getCode());
 
         if (line==null){
@@ -87,7 +88,7 @@ public class CartInfo {
     public double getAmountTotal(){
         double total=0;
         for (CartLineInfo line:this.cartLines){
-            total+=line.getProductInfo().getAmount();
+            total+=line.getAmount();
         }
         return total;
     }

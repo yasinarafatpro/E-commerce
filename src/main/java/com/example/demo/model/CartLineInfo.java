@@ -11,5 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CartLineInfo {
     private ProductInfo productInfo;
+    private int amount;
     private int quantity=0;
 }
