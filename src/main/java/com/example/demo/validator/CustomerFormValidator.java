@@ -21,12 +21,12 @@ public class CustomerFormValidator implements Validator{
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return clazz== CustomerForm.class;
+        return clazz== CustomerFormValidator.class;
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        CustomerForm custInfo=(CustomerForm)target;
+        CustomerForm custInfo=(CustomerForm) target;
         //check the fields of productForm
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"code","NotEmpty.productForm.code");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"name","NotEmpty.productForm.name");
