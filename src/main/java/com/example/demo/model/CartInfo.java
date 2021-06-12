@@ -27,7 +27,7 @@ public class CartInfo {
     return null;
     }
 
-    public void addProduct(ProductInfo productInfo,int quatity){
+    public void addProduct(ProductInfo productInfo,int quantity){
         CartLineInfo line = this.findLineByCode(productInfo.getCode());
 
         if (line==null){
@@ -36,6 +36,29 @@ public class CartInfo {
             line.setProductInfo(productInfo);
             this.cartLines.add(line);
         }
-        int newQuantity=line.getQuantity()+quatity;
+        int newQuantity=line.getQuantity()+quantity;
+        if (newQuantity<=0){
+            this.cartLines.remove(line);
+        }else {
+            line.setQuantity(newQuantity);
+        }
+    }
+    //update quantity
+    public void updateProduct(String code,int quantity){
+        CartLineInfo line=this.findLineByCode(code);
+
+        if (line!=null){
+            if (quantity<=0){
+                this.cartLines.remove(line);
+            }else {
+                line.setQuantity(quantity);
+            }
+        }
+    }
+    public void removeProduct(ProductInfo productInfo){
+        CartLineInfo line=this.findLineByCode(productInfo.getCode());
+        if (line!=null){
+            this.cartLines.remove(line);
+        }
     }
 }
